@@ -1,18 +1,11 @@
 import React from 'react'
 import { render } from 'react-dom'
-import { createStore , applyMiddleware } from 'redux'
-import { createLogger } from 'redux-logger'
-import { Provider } from 'react-redux'
-import App from './components/App'
-import reducer from './reducers'
+import configureStore from './configureStore'
+import Root from './components/Root'
 
-const logger = createLogger();
-const createStoreWithMiddleware = applyMiddleware(logger)(createStore);
-const store = createStoreWithMiddleware(reducer)
+const store = configureStore()
 
 render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
+  <Root store={store}/>,
   document.getElementById('root')
 )
