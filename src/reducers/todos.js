@@ -1,5 +1,5 @@
 import undoable, { includeAction } from 'redux-undo'
-import * as types from '../actions/actionTypes'
+import * as types from '../constants/ActionTypes'
 
 const todo = (state, action) => {
   switch (action.type) {
@@ -18,12 +18,7 @@ const todo = (state, action) => {
         ...state,
         completed: !state.completed
       }
-    case types.LOAD_TODO_SUCCESS:
-      // return action.cats;
-     // return action.cats.map(cat => Object.assign({}, cat, Object.assign([], cat.hobby_ids)))
-      return [ ...state, action.todos]  
-    default:
-      return state
+    
   }
 }
 
@@ -38,12 +33,15 @@ const todos = (state = [], action) => {
       return state.map(t =>
         todo(t, action)
       )
+      case types.LOAD_TODO_SUCCESS:
+      return [ ...state, ...action.todos]  
+
     default:
       return state
   }
 }
 
-const undoableTodos = undoable(todos, { filter: includeAction(['ADD_TODO', 'TOGGLE_TODO', 'LOAD_TODO_SUCCESS']) })
+const undoableTodos = undoable(todos, { filter: includeAction(['ADD_TODO', 'TOGGLE_TODO']) })
 
 export default undoableTodos
 
